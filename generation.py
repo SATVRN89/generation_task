@@ -82,3 +82,27 @@ df_2['group'].value_counts()
 # Show histogram with the distribution of values per group
 fig_3 = plt.hist(df_2['group'], bins=5)
 plt.show()
+
+#%%
+from scipy.stats import f_oneway
+# Prepare data for ANOVA
+anova_data = [df_2[df_2['group'] == label]['digits'].values for label in labels]
+
+#%%
+# Perform ANOVA
+anova_result = f_oneway(*anova_data)
+
+#%%
+# Print the result
+print("ANOVA Test Results")
+print(f"F-statistic: {anova_result.statistic:.4f}")
+print(f"P-value: {anova_result.pvalue:.4e}")
+
+#%%
+# Interpretation
+if anova_result.pvalue < 0.05:
+    print("The difference in means between the groups is statistically significant.")
+else:
+    print("The difference in means between the groups is not statistically significant.")
+
+#%%
